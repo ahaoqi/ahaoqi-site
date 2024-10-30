@@ -1,8 +1,18 @@
-import { createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
+import {createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized} from 'vue-router'
 // @ts-ignore
 import Home from '../view/home/index.vue'
 // @ts-ignore
 import Layout from "../layout/layout.vue"
+// @ts-ignore
+import User from "../view/user/index.vue"
+// @ts-ignore
+import About from "../view/about/index.vue"
+// @ts-ignore
+import Portfolio from "../view/portfolio/index.vue"
+// @ts-ignore
+import Contact from "../view/contact/index.vue"
+// @ts-ignore
+import Other from "../view/other/index.vue"
 
 // 定义路由配置
 const routes: Array<RouteRecordRaw> = [
@@ -10,13 +20,31 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'home',
         redirect: to => {
-            return { path: '/home' }
+            return {path: '/home'}
         },
         component: Layout,
         children: [
             {
                 path: 'home',
                 component: Home
+            }, {
+                path: 'user',
+                component: User
+            }, {
+                path: 'about',
+                component: About
+            }
+            , {
+                path: 'portfolio',
+                component: Portfolio
+            }
+            , {
+                path: 'contact',
+                component: Contact
+            }
+            , {
+                path: 'other',
+                component: Other
             }
         ],
     },
