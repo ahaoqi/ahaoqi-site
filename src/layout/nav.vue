@@ -1,18 +1,76 @@
 <script setup lang="ts">
-import {ref} from "vue";
-import {useRouter} from 'vue-router';
+import { ref, watch, onMounted } from "vue";
+import { useRouter, useRoute } from 'vue-router';
+import gsap from 'gsap';
 
 const activeIndex = ref('1');
 const router = useRouter();
+const route = useRoute();
+
+onMounted(() => {
+  // 页面加载时为导航项添加淡入动画
+  gsap.from('.el-menu-item', {
+    opacity: 0,
+    y: -20,
+    stagger: 0.1, // 每个导航项延迟出现
+    duration: 0.5,
+    ease: 'power2.out',
+  });
+});
+
+// 监听路由变化并更新 activeIndex
+watch(route, (newRoute) => {
+  const path = newRoute.path;
+  if (path === '/layout/siteLayout/home') {
+    activeIndex.value = '1';
+  } else if (path === '/layout/siteLayout/about') {
+    activeIndex.value = '2';
+  } else if (path === '/layout/siteLayout/portfolio') {
+    activeIndex.value = '3';
+  } else if (path === '/layout/siteLayout/contact') {
+    activeIndex.value = '4';
+  } else if (path === '/layout/siteLayout/other') {
+    activeIndex.value = '5';
+  }
+}, { immediate: true });
 
 const handleSelect = (key: string, keyPath: string[]) => {
-  if (key === '/user') {
-    router.push('/user');
-  } else {
-    console.log(key, keyPath);
+  // 切换导航项时添加滑动效果
+  gsap.to('.el-menu-item.is-active', {
+    duration: 0.3,
+    x: 10,
+    ease: 'power1.out',
+    onStart: () => {
+    },
+    onUpdate: () => {
+    },
+    onComplete: () => {
+      gsap.to('.el-menu-item.is-active', { x: 0, duration: 0.3 });
+    }
+  });
+
+  switch (key) {
+    case '1':
+      router.push('/layout/siteLayout/home');
+      break;
+    case '2':
+      router.push('/layout/siteLayout/about');
+      break;
+    case '3':
+      router.push('/layout/siteLayout/portfolio');
+      break;
+    case '4':
+      router.push('/layout/siteLayout/contact');
+      break;
+    case '5':
+      router.push('/layout/siteLayout/other');
+      break;
+    default:
+      console.log(key, keyPath);
   }
 };
 </script>
+
 
 <template>
   <div>
@@ -22,28 +80,29 @@ const handleSelect = (key: string, keyPath: string[]) => {
         :default-active="activeIndex"
         @select="handleSelect"
     >
+
       <el-menu-item index="1">
-        <router-link to="/user" style="text-decoration: none; color: inherit;">
+        <router-link to="/layout/siteLayout/home" @click.stop style="text-decoration: none; color: inherit;">
           Home
         </router-link>
       </el-menu-item>
       <el-menu-item index="2">
-        <router-link to="/about" style="text-decoration: none; color: inherit;">
+        <router-link to="/layout/siteLayout/about" @click.stop style="text-decoration: none; color: inherit;">
           About
         </router-link>
       </el-menu-item>
       <el-menu-item index="3">
-        <router-link to="/portfolio" style="text-decoration: none; color: inherit;">
+        <router-link to="/layout/siteLayout/portfolio" @click.stop style="text-decoration: none; color: inherit;">
           Portfolio
         </router-link>
       </el-menu-item>
       <el-menu-item index="4">
-        <router-link to="/contact" style="text-decoration: none; color: inherit;">
+        <router-link to="/layout/siteLayout/contact" @click.stop style="text-decoration: none; color: inherit;">
           Contact Me
         </router-link>
       </el-menu-item>
       <el-menu-item index="5">
-        <router-link to="/other" style="text-decoration: none; color: inherit;">
+        <router-link to="/layout/siteLayout/other" @click.stop style="text-decoration: none; color: inherit;">
           Other
         </router-link>
       </el-menu-item>
@@ -88,7 +147,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
   z-index: -1;
 }
 
-
 /* 响应式调整 */
 @media screen and (max-width: 512px) {
   .icons-list {
@@ -97,3 +155,5 @@ const handleSelect = (key: string, keyPath: string[]) => {
   }
 }
 </style>
+
+

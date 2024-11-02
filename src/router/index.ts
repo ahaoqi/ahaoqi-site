@@ -1,8 +1,10 @@
-import {createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized} from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 // @ts-ignore
 import Home from '../view/home/index.vue'
 // @ts-ignore
 import Layout from "../layout/layout.vue"
+// @ts-ignore
+import SiteLayout from "../layout/site/siteLayout.vue"
 // @ts-ignore
 import User from "../view/user/index.vue"
 // @ts-ignore
@@ -18,35 +20,57 @@ import Other from "../view/other/index.vue"
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'home',
+        name: 'root',
         redirect: to => {
-            return {path: '/home'}
-        },
+            return { path: '/layout/siteLayout/home' }
+        }
+    },
+    {
+        // 总的路由
+        path: '/layout',
+        name: 'layout',
         component: Layout,
         children: [
             {
-                path: 'home',
-                component: Home
-            }, {
-                path: 'user',
-                component: User
-            }, {
-                path: 'about',
-                component: About
+                path: '',
+                name: 'home',
+                redirect: to => {
+                    return { path: '/layout/siteLayout/home' }
+                }
+            },
+            {
+                // 网站前端路由主要页面
+                path: 'siteLayout',
+                name: 'layout',
+                component: SiteLayout,
+                children: [
+                    {
+                        path: '/layout/siteLayout/home',
+                        component: Home
+                    },
+                    {
+                        path: '/layout/siteLayout/user',
+                        component: User
+                    },
+                    {
+                        path: '/layout/siteLayout/about',
+                        component: About
+                    },
+                    {
+                        path: '/layout/siteLayout/portfolio',
+                        component: Portfolio // 文件
+                    },
+                    {
+                        path: '/layout/siteLayout/contact',
+                        component: Contact // 联系
+                    },
+                    {
+                        path: '/layout/siteLayout/other',
+                        component: Other // 其他
+                    }
+                ]
             }
-            , {
-                path: 'portfolio',
-                component: Portfolio
-            }
-            , {
-                path: 'contact',
-                component: Contact
-            }
-            , {
-                path: 'other',
-                component: Other
-            }
-        ],
+        ]
     },
 ]
 
@@ -63,7 +87,7 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
     }
     if (to.path === '/') {
         next({
-            path: '/home'
+            path: '/layout'
         })
     } else {
         next()
