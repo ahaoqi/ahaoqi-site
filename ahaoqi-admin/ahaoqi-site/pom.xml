@@ -55,7 +55,6 @@
     </dependencies>
 
     <build>
-        <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -69,5 +68,35 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
+        <plugins>
+            <!-- Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.4.RELEASE</version> <!-- 使用您的 Spring Boot 版本 -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Optional: Maven Jar Plugin for standalone usage, though not necessary with Spring Boot -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Main-Class>com.ahaoqi.site.AhaoqiApplication</Main-Class> <!-- 替换为您的主类 -->
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

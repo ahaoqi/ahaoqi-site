@@ -1,6 +1,3 @@
-server:
-  port: 1224 # 服务端口
-
 spring:
   profiles:
     active: dev # 环境设置
@@ -24,7 +21,7 @@ spring:
         min-idle: 0     #最小空闲连接，默认0
 
 
-
-#logging:
-#  level:å
-#    root: warn
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/xml/*.xml

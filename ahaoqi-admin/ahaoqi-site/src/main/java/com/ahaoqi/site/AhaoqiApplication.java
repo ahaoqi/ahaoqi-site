@@ -10,4 +10,6 @@ public class AhaoqiApplication {
     public static void main(String[] args) {
         SpringApplication.run(AhaoqiApplication.class, args);
     }
+
+
 }
