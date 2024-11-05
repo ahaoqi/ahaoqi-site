@@ -6,7 +6,12 @@ import Nav from "../nav.vue";
   <div class="app-container">
     <Nav></Nav>
     <div class="content-container">
-      <router-view></router-view>
+      <!-- 滑动路由 -->
+      <router-view v-slot="{ Component }">
+        <transition name="slide-fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -41,6 +46,7 @@ import Nav from "../nav.vue";
 @media (min-width: 1200px) {
   .content-container {
     max-width: 1200px; /* 大显示器的宽度 */
+    width: 1200px;
   }
 }
 
@@ -48,6 +54,7 @@ import Nav from "../nav.vue";
 @media (min-width: 768px) and (max-width: 1199px) {
   .content-container {
     max-width: 800px; /* 普通笔记本的宽度 */
+    width: 800px;
   }
 }
 
@@ -57,5 +64,20 @@ import Nav from "../nav.vue";
     max-width: 100%; /* 小屏幕设备的宽度 */
     margin: 70px 15px; /* 调整左右边距 */
   }
+}
+
+/* 定义滑动效果的CSS */
+.slide-fade-enter-active, .slide-fade-leave-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-fade-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
 }
 </style>

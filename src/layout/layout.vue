@@ -48,7 +48,7 @@ onMounted(() => {
       ease: 'power2.out',
       stagger: 0.1,
     });
-  }, 1000);
+  }, 5000);
 
   // 为每个图标 li 元素添加悬停事件
   Array.from(iconsListRef.value.children).forEach((icon) => {
@@ -97,78 +97,49 @@ onMounted(() => {
       </ul>
     </div>
     <div class="centered-router-view">
-      <router-view></router-view>
+      <!-- 滑动路由 -->
+      <router-view v-slot="{ Component }">
+        <transition name="slide-fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* 修改后的样式 */
-.fullscreen-image {
-  position: fixed; /* 固定定位 */
-  bottom: 0; /* 从底部开始 */
-  left: 0; /* 从左侧开始 */
-  width: auto; /* 自动宽度 */
-  height: auto; /* 自动高度 */
-  max-width: 100%; /* 最大宽度为100% */
-  max-height: 100%; /* 最大高度为100% */
-  object-fit: contain; /* 图片填充方式，contain 会保持图片比例 */
-  z-index: -1; /* 确保图片在其他内容之下 */
-}
+/* 缩小后的样式 */
+ul.icons-list {
+  position: fixed;
+  bottom: 10px; /* 调整边距 */
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* 缩小间距 */
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 10;
+  transform: scale(0.8); /* 缩小整体尺寸 */
 
-body {
-  margin: 0;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-ul,
-li {
-  margin: 0;
-  padding: 0;
 }
 
 li {
   list-style: none;
 }
 
-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  z-index: 25;
-}
-
-ul.icons-list {
-  position: fixed; /* 固定定位 */
-  bottom: 0; /* 从底部开始 */
-  left: 0; /* 从左侧开始 */
-  display: flex;
-  flex-direction: column; /* 垂直排列 */
-  align-items: center; /* 水平居中 */
-  gap: 18px; /* 项目之间的间距 */
-  padding: 18px; /* 内边距 */
-  border-radius: 10px 10px 0 0; /* 圆角 */
-  z-index: 10; /* 确保在其他内容之上 */
-}
-
 ul.icons-list li a {
   position: relative;
   display: block;
   color: white;
-  width: 64px;
-  height: 64px;
-  font-size: 36px;
+  width: 48px; /* 缩小图标尺寸 */
+  height: 48px;
+  font-size: 24px;
   text-align: center;
-  line-height: 66px;
+  line-height: 50px;
   border-radius: 50%;
   background: #2c3a47;
-  transition: 0.6s;
+  transition: 0.4s;
 }
 
 ul.icons-list li a:hover {
@@ -196,12 +167,10 @@ ul.icons-list li a:hover::before {
 
 /* bilibili */
 .svg-icon {
-  transition: 0.6s;
+  width: 24px; /* 缩小图标 */
+  height: 24px;
+  transition: 0.4s;
   filter: invert(1);
-}
-
-ul.icons-list li {
-  overflow: hidden;
 }
 
 ul.icons-list li a:hover .svg-icon {
@@ -211,10 +180,38 @@ ul.icons-list li a:hover .svg-icon {
 @media screen and (max-width: 512px) {
   ul.icons-list {
     flex-direction: column;
+    transform: scale(0.7); /* 更小比例 */
   }
 
   ul.icons-list li {
-    margin: 18px 0;
+    margin: 12px 0;
   }
+}
+
+/* 向下滑动的动画效果CSS */
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-down-enter-from {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slide-down-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* 应用容器和内容容器样式 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content-container {
+  flex: 1;
+  margin-top: 60px; /* 根据需要调整布局 */
 }
 </style>

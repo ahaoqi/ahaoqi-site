@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
+import {createRouter, createWebHistory, RouteRecordRaw, NavigationGuardNext, RouteLocationNormalized} from 'vue-router'
 // @ts-ignore
 import Home from '../view/home/index.vue'
 // @ts-ignore
@@ -16,13 +16,19 @@ import Contact from "../view/contact/index.vue"
 // @ts-ignore
 import Other from "../view/other/index.vue"
 
+// @ts-ignore
+import NotFound from "../view/error/404.vue"
+
+// @ts-ignore
+import SkillDetail from "../view/skillDetail/skillDetail.vue"
+
 // 定义路由配置
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'root',
         redirect: to => {
-            return { path: '/layout/siteLayout/home' }
+            return {path: '/layout/siteLayout/home'}
         }
     },
     {
@@ -35,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '',
                 name: 'home',
                 redirect: to => {
-                    return { path: '/layout/siteLayout/home' }
+                    return {path: '/layout/siteLayout/home'}
                 }
             },
             {
@@ -72,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
             }
         ]
     },
+    {path: '/skill/:id', name: 'SkillDetail', component: SkillDetail},
+
+
+
+    {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound},
 ]
 
 // 创建路由器实例
